@@ -1465,4 +1465,14 @@ abstract contract TargetFunctions is Properties {
             cdpManager.setRedemptionsPaused(value == 1 ? true : false);
         }
     }
+
+    // NOTE: set GOV_PROPOSAL in Setup
+    // bytes immmutable GOV_PROPOSAL = abi.encodeWithSelector(cdpManager.setRedemptionFeeFloor.selector, (1e18 * 7) / 1000); // sets fee floor to 7%
+
+    // more generalized governance target function
+    function setGovernanceProposalGeneral(address governanceTarget) public {
+        hevm.prank(defaultGovernance);
+        (bool success, ) = governanceTarget.call(GOV_PROPOSAL);
+        require(success);
+    }
 }
