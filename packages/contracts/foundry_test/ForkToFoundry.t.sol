@@ -26,9 +26,11 @@ contract ForkToFoundry is
     BeforeAfterWithLogging
 {
     function setUp() public {
-        vm.createSelectFork("YOUR_RPC_URL", 20777211);
+        string memory MAINNET_RPC_URL = vm.envString("MAINNET_RPC_URL");
+        vm.createSelectFork(MAINNET_RPC_URL, 20996709); // NOTE: changed block to match coverage report
         _setUpFork();
-        _setUpActors();
+        // _setUpActors();
+        _setUpActorsFork();
         actor = actors[address(USER1)];
 
         // If the accounting hasn't been synced since the last rebase
@@ -56,10 +58,52 @@ contract ForkToFoundry is
 
         // forge test --match-test test_asserts_GENERAL_12_0 -vv 
     function test_asserts_GENERAL_12_0() public {
-
         vm.roll(block.number + 4963);
         vm.warp(block.timestamp + 50417);
         asserts_GENERAL_12();
+    }
 
+    // forge test --match-test test_asserts_GENERAL_12_1 -vv 
+    function test_asserts_GENERAL_12_1() public {
+        // NOTE: from reproducer test immediately breaks but when asserts_test_fail is commented it doesn't
+        // vm.roll(block.number + 60364);
+        // vm.warp(block.timestamp + 11077);
+        // asserts_active_pool_invariant_5();
+
+        // vm.roll(block.number + 1984);
+        // vm.warp(block.timestamp + 322370);
+        // asserts_test_fail();
+
+        // vm.roll(block.number + 33560);
+        // vm.warp(block.timestamp + 95);
+        // asserts_GENERAL_12();
+        // ========================
+
+        // NOTE: from shrunken logs breaks immediately
+        vm.roll(block.number + 1);
+        vm.warp(block.timestamp + 2973);
+        asserts_GENERAL_12();
+    }
+
+    // forge test --match-test test_asserts_GENERAL_13_2 -vv 
+    // @audit this fails for all blocks/timestamps, including the initial block/timestamp setup was forked from
+    function test_asserts_GENERAL_13_2() public {
+        // from shrunken logs
+        // vm.roll(block.number + 1);
+        // vm.warp(block.timestamp + 2963);
+
+        // from reproducer
+        // vm.roll(block.number + 60471);
+        // vm.warp(block.timestamp + 6401);
+
+        // fails for the initial fork block and all others
+        console2.log("block.number == 20996709: ", block.number == 20996709);
+        console2.log("block.timestamp == 1729305851: ", block.timestamp == 1729305851);
+
+        asserts_GENERAL_13();
+    }
+
+    function test_asserts_GENERAL_14() public {
+        asserts_GENERAL_14();
     }
 }
