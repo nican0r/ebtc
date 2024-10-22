@@ -346,8 +346,8 @@ abstract contract Setup is BaseStorageVariables, PropertiesConstants {
         IHevm vm = IHevm(0x7109709ECfa91a80626fF3989D68f67F5b1DD12D);
 
         // Add timestamp and block for Recon dynamic replacement
-        // vm.roll(20996709);
-        // vm.warp(1729305851);
+        vm.roll(20996709);
+        vm.warp(1729305851);
 
         // NOTE: Addresses from: https://gist.github.com/GalloDaSballo/75d77f8d0837821156fe061d0d8687e1
         defaultGovernance = address(0xaDDeE229Bd103bb5B10C3CdB595A01c425dd3264);

@@ -27,9 +27,10 @@ contract ForkToFoundry is
 {
     function setUp() public {
         string memory MAINNET_RPC_URL = vm.envString("MAINNET_RPC_URL");
-        vm.createSelectFork(MAINNET_RPC_URL, 20996709); // NOTE: changed block to match coverage report
+        // TODO: when testing locally change this block with block from coverage report set inside _setUpFork
+        vm.createSelectFork(MAINNET_RPC_URL, 20996709); 
+        
         _setUpFork();
-        // _setUpActors();
         _setUpActorsFork();
         actor = actors[address(USER1)];
 
@@ -47,7 +48,6 @@ contract ForkToFoundry is
         // @audit removed because inconsistent with EchidnaForkTester setup
         // vars.cumulativeCdpsAtTimeOfRebase = 200;
 
-        // NOTE: this is essential to get reproducer tests to work correctly
         _setUpCdpFork();
     }
 
