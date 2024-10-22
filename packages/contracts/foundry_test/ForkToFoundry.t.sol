@@ -68,31 +68,29 @@ contract ForkToFoundry is
     }
 
     // forge test --match-test test_asserts_GENERAL_12_1 -vv 
-    // @audit passes without warping
     function test_asserts_GENERAL_12_1() public {
         // NOTE: from reproducer test immediately breaks but when asserts_test_fail is commented it doesn't
-        vm.roll(block.number + 60364);
-        vm.warp(block.timestamp + 11077);
-        asserts_active_pool_invariant_5();
+        // vm.roll(block.number + 60364);
+        // vm.warp(block.timestamp + 11077);
+        // asserts_active_pool_invariant_5();
 
-        // NOTE: removing this assertion and warp causes a failure
-        // vm.roll(block.number + 1984);
-        // vm.warp(block.timestamp + 322370);
-        // asserts_test_fail();
+        // // NOTE: removing this assertion and warp causes a failure
+        // // vm.roll(block.number + 1984);
+        // // vm.warp(block.timestamp + 322370);
+        // // asserts_test_fail();
 
-        vm.roll(block.number + 33560);
-        vm.warp(block.timestamp + 95);
-        asserts_GENERAL_12();
+        // vm.roll(block.number + 33560);
+        // vm.warp(block.timestamp + 95);
+        // asserts_GENERAL_12();
         // ========================
 
         // NOTE: from shrunken logs breaks immediately
-        // vm.roll(block.number + 1);
-        // vm.warp(block.timestamp + 2973);
-        // asserts_GENERAL_12();
+        vm.roll(block.number + 1);
+        vm.warp(block.timestamp + 2973);
+        asserts_GENERAL_12();
     }
 
     // forge test --match-test test_asserts_GENERAL_13_2 -vv 
-    // @audit this fails only for blocks/timestamps at which echidna tests fail
     function test_asserts_GENERAL_13_2() public {
         // NOTE: from shrunken logs
         // vm.roll(block.number + 1);
@@ -103,10 +101,5 @@ contract ForkToFoundry is
         vm.warp(block.timestamp + 6401);
 
         asserts_GENERAL_13();
-    }
-
-    // NOTE: sanity check
-    function test_asserts_GENERAL_14() public {
-        asserts_GENERAL_14();
     }
 }
